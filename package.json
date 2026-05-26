@@ -1,0 +1,8 @@
+{
+  "name": "cs-dashboard",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.16.0"
+  }
+}
