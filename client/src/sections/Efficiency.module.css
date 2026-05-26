@@ -1,0 +1,137 @@
+.eff { padding: 6rem 0; }
+
+.inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: var(--pad);
+}
+
+.header { margin-bottom: 3rem; }
+
+.title {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  letter-spacing: 0.06em;
+  color: var(--text);
+  line-height: 1;
+}
+
+.sub {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+/* Lista */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 2rem 7rem 1fr 8rem 6rem 5rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: border-color var(--t-slow);
+}
+
+.row:hover { border-color: var(--border-hi); }
+
+.rowFirst {
+  border-color: rgba(251,191,36,0.2);
+}
+
+.rank {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.name {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.barTrack {
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s cubic-bezier(0.4,0,0.2,1);
+}
+
+.vals {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.bpk {
+  font-family: var(--mono);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.bpkLabel {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.extra {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.extraVal {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-sec);
+}
+
+.extraLab {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footnote {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+@media (max-width: 700px) {
+  .row { grid-template-columns: 2rem 1fr 5rem 5rem; }
+  .barTrack, .extra:last-child { display: none; }
+  .eff { padding: 4rem 0; }
+}

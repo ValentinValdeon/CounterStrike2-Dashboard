@@ -1,0 +1,333 @@
+/* ── Section ──────────────────────────────────────────────────── */
+.podium { padding: 6rem 0; }
+
+.inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+/* ── Split layout ─────────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  overflow: hidden;
+  min-height: 560px;
+}
+
+/* ── LEFT: stat panel ─────────────────────────────────────────── */
+.statPanel {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-mid);
+  background: var(--bg-elevated);
+}
+
+.statPanelHeader {
+  padding: 1.5rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--border-mid);
+}
+
+.statPanelSub {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.statPanelTitle {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  letter-spacing: 0.06em;
+  color: var(--text);
+  line-height: 1;
+  margin-top: 0.3rem;
+}
+
+.statList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-mid) transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.6rem 1.25rem;
+  border: none;
+  border-left: 3px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: left;
+  transition: background var(--t), color var(--t), border-color var(--t);
+}
+
+.statItem:hover {
+  background: var(--bg-surface);
+  color: var(--text-sec);
+}
+
+.statItemActive {
+  background: var(--bg-surface);
+  color: var(--text);
+  border-left-color: var(--active-accent, var(--text));
+  font-weight: 500;
+}
+
+.statItemActive .statNum {
+  color: var(--active-accent, var(--text));
+}
+
+.statNum {
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  min-width: 1.2rem;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--t);
+}
+
+/* ── RIGHT: chart panel ───────────────────────────────────────── */
+.chartPanel {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.chartHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 1.75rem 1rem;
+  border-bottom: 1px solid var(--border-mid);
+  flex-wrap: wrap;
+}
+
+.chartSub {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.chartTitle {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  letter-spacing: 0.05em;
+  color: var(--text);
+  line-height: 1;
+  margin-top: 0.3rem;
+}
+
+/* ── Legend / player selector ─────────────────────────────────── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.5rem;
+  align-items: center;
+  padding-top: 0.15rem;
+}
+
+.legendBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.6rem 0.3rem 0.45rem;
+  border: 1px solid var(--border-low);
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  transition: background var(--t), border-color var(--t), color var(--t);
+}
+
+.legendBtn:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-mid);
+  color: var(--text-sec);
+}
+
+/* ganador (solo en modo ranking, sin selección) */
+.legendBtnWinner {
+  border-color: var(--p-color);
+  color: var(--text);
+}
+
+/* seleccionado */
+.legendBtnSelected {
+  background: var(--bg-elevated);
+  border-color: var(--p-color);
+  color: var(--text);
+}
+
+.legendSwatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  transition: opacity var(--t);
+}
+
+.legendName { line-height: 1; }
+
+.legendCheck {
+  width: 10px;
+  height: 10px;
+  color: var(--p-color);
+  flex-shrink: 0;
+}
+
+/* ── Chart area ───────────────────────────────────────────────── */
+.chartArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1.75rem 4.5rem;
+  position: relative;
+}
+
+.radarSvg {
+  width: 100%;
+  max-width: 460px;
+  overflow: visible;
+}
+
+/* ── Winner / player banner ───────────────────────────────────── */
+.winnerBanner {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.75rem;
+  right: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--border-mid);
+  border-left: 3px solid var(--winner-color, var(--text));
+  border-radius: 3px;
+  background: var(--bg-elevated);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+
+  /* rápido: 0.15s delay, animación corta */
+  animation: bannerReveal 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) 0.15s both;
+}
+
+@keyframes bannerReveal {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.bannerIcon {
+  width: 14px;
+  height: 14px;
+  color: var(--winner-color, var(--text));
+  flex-shrink: 0;
+}
+
+.winnerLabel {
+  text-transform: uppercase;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+}
+
+.winnerName {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.winnerVal {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: var(--text-sec);
+  font-variant-numeric: tabular-nums;
+}
+
+.bannerClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  transition: background var(--t), color var(--t);
+  margin-left: 0.25rem;
+}
+
+.bannerClose:hover {
+  background: var(--bg-surface);
+  color: var(--text);
+}
+
+.bannerClose svg {
+  width: 10px;
+  height: 10px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; }
+
+  .statPanel {
+    border-right: none;
+    border-bottom: 1px solid var(--border-mid);
+  }
+
+  .statList {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0.5rem 0.75rem;
+    gap: 0.3rem;
+    overflow-y: visible;
+  }
+
+  .statItem {
+    padding: 0.35rem 0.65rem;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 2px;
+    font-size: 0.65rem;
+  }
+
+  .statItemActive {
+    border-bottom-color: var(--active-accent, var(--text));
+    border-left-color: transparent;
+    background: var(--bg-surface);
+  }
+
+  .statNum { display: none; }
+  .chartArea { padding-bottom: 5rem; }
+  .inner { padding: 0 1.25rem; }
+}
+
+@media (max-width: 480px) {
+  .chartHeader { padding: 1rem 1.25rem 0.75rem; }
+  .winnerBanner { left: 1rem; right: 1rem; bottom: 1rem; }
+  .radarSvg { max-width: 320px; }
+}

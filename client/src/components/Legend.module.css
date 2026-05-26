@@ -1,0 +1,122 @@
+.btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.85rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-mid);
+  color: var(--text-sec);
+  transition: all var(--t);
+  cursor: pointer;
+}
+.btn:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.btnLabel {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+/* Modal */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  width: 90%;
+  max-width: 480px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  animation: fadeUp 0.25s ease;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+.close {
+  color: var(--text-sec);
+  padding: 0.25rem;
+  transition: color var(--t);
+  cursor: pointer;
+}
+.close:hover { color: var(--text); }
+
+.list {
+  padding: 1rem 1.25rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.itemLabel {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+.itemDesc {
+  font-family: var(--body);
+  font-size: 0.8rem;
+  color: var(--text-sec);
+  line-height: 1.5;
+}
+
+.footer {
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--border);
+}
+.footer p {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

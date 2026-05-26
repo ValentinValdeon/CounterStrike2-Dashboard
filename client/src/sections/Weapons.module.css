@@ -1,0 +1,129 @@
+.weapons { padding: 6rem 0; }
+
+.inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.header { margin-bottom: 3rem; }
+
+.title {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  letter-spacing: 0.06em;
+  color: var(--text);
+  line-height: 1;
+}
+
+.sub {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+/* Tabla */
+.table {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.thead {
+  display: grid;
+  grid-template-columns: 2.5rem 10rem 1fr 5rem 5rem 5rem 5rem 5rem 5.5rem 5.5rem;
+  padding: 0.85rem 1.5rem;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-mid);
+  gap: 0.5rem;
+}
+
+.thRank, .thName, .thBar, .thNum, .thPlayer {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.thPlayer {
+  text-align: center;
+  font-weight: 600;
+}
+
+.thNum { text-align: right; }
+
+.trow {
+  display: grid;
+  grid-template-columns: 2.5rem 10rem 1fr 5rem 5rem 5rem 5rem 5rem 5.5rem 5.5rem;
+  align-items: center;
+  padding: 0.65rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  gap: 0.5rem;
+  transition: background var(--t);
+}
+.trow:last-child { border-bottom: none; }
+.trow:hover { background: rgba(255,255,255,0.025); }
+
+.tdRank {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+.tdName {
+  font-family: var(--body);
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tdBar {
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.tdBarFill {
+  height: 100%;
+  background: var(--text-sec);
+  border-radius: 99px;
+  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Las primeras 3 filas — barra más brillante */
+.trow:nth-child(-n+4) .tdBarFill {
+  background: var(--text);
+}
+
+.tdPlayer {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.tdNum {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 600;
+  text-align: right;
+}
+
+@media (max-width: 650px) {
+  .thead, .trow {
+    grid-template-columns: 2rem 1fr 3.5rem 3.5rem;
+  }
+  .tdBar, .thBar { display: none; }
+}

@@ -1,0 +1,507 @@
+/* ═══════════════════════════════════════════════
+   MEDALS — gaming oscuro refinado v4
+   Flip card · dorso neutro sin spoiler
+   ═══════════════════════════════════════════════ */
+
+/* ── Variables neutras para el dorso ─────────── */
+/* Cambiá estos valores si querés otro tono       */
+:root {
+  --neutral-color:  #4a4a52;   /* anillo / borde del dorso   */
+  --neutral-disc:   #2a2a32;   /* fondo del disco del dorso  */
+  --neutral-icon:   #6a6a75;   /* color del ícono borroso    */
+  --neutral-text:   #55555f;   /* nombre borroso del dorso   */
+}
+
+/* ── Sección ─────────────────────────────────── */
+
+.medals {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 0;
+  overflow: hidden;
+  max-width: 1650px;
+  margin: 0 auto;
+}
+
+.medals::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 60vh;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.025) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Header ──────────────────────────────────── */
+
+.header {
+  margin-bottom: 4rem;
+  text-align: left;
+  padding: 0 3rem;
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.subtitle {
+  font-family: var(--body);
+  font-size: 0.875rem;
+  color: var(--text-sec);
+  letter-spacing: 0.02em;
+}
+
+/* ── Grid — 5 columnas ───────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+  padding: 0 3rem;
+}
+
+/* ═══════════════════════════════════════════════
+   FLIP CARD
+   ═══════════════════════════════════════════════ */
+
+.card {
+  perspective: 1000px;
+  cursor: pointer;
+  opacity: 0;
+  animation: cardEntrance 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  min-height: 320px;
+}
+
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.card.flipped .cardInner {
+  transform: rotateY(180deg);
+}
+
+.cardFront,
+.cardBack {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* ── DORSO — gris neutro, sin spoiler ────────── */
+
+.cardBack {
+  background: var(--bg-card);
+  border: 1px solid var(--neutral-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  transition: border-color 0.25s, background 0.25s;
+}
+
+/* Patrón de fondo tipo rasca */
+.cardBack::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 12px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+/* Línea superior neutra */
+.cardBack::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 25%;
+  right: 25%;
+  height: 2px;
+  background: var(--neutral-color);
+  border-radius: 0 0 4px 4px;
+  opacity: 0.5;
+  transition: opacity 0.25s, left 0.25s, right 0.25s;
+}
+
+.card:not(.flipped):hover .cardBack {
+  border-color: #6a6a78;
+  background: var(--bg-elevated);
+}
+
+.card:not(.flipped):hover .cardBack::after {
+  opacity: 0.9;
+  left: 15%;
+  right: 15%;
+}
+
+/* Medalla circular del dorso */
+.backMedalCircle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
+.backMedalRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--neutral-color);
+  opacity: 0.5;
+}
+
+.backMedalRing::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  border: 1px solid var(--neutral-color);
+  opacity: 0.3;
+}
+
+.backMedalDisc {
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  background: var(--neutral-disc);
+  border: 1px solid var(--neutral-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* borroso — no se puede identificar */
+  filter: blur(3px) opacity(0.45);
+}
+
+.backMedalDisc::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 40%;
+  height: 30%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.07) 0%, transparent 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.backMedalIcon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backMedalName {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  color: var(--neutral-text);
+  text-align: center;
+  filter: blur(4px) opacity(0.5);
+  user-select: none;
+}
+
+.backHint {
+  font-family: var(--mono);
+  font-size: 1.5rem;
+  letter-spacing: 0.15em;
+  color: #8a8a96;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.backHint::before,
+.backHint::after {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--neutral-color);
+  opacity: 0.5;
+}
+
+/* ── FRENTE — revelado, con color del jugador ── */
+
+.cardFront {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2rem 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  transform: rotateY(180deg);
+  transition: box-shadow 0.3s, background 0.3s;
+}
+
+/* Línea superior con color del jugador */
+.cardFront::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: var(--player-color);
+  border-radius: 0 0 4px 4px;
+  opacity: 0.9;
+}
+
+.card.flipped .cardFront {
+  background: var(--bg-elevated);
+  border-color: var(--border-mid);
+  box-shadow:
+    0 16px 32px -12px rgba(0,0,0,0.5),
+    0 0 0 1px var(--player-color),
+    0 0 40px -20px var(--player-color);
+}
+
+/* Medalla circular del frente */
+.medalCircle {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin-bottom: 1.4rem;
+  flex-shrink: 0;
+}
+
+.medalRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--player-color);
+  opacity: 0.7;
+}
+
+.medalRing::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  border: 1px solid var(--player-color);
+  opacity: 0.4;
+}
+
+.medalDisc {
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 35%,
+    color-mix(in srgb, var(--player-color) 18%, var(--bg-elevated)),
+    var(--bg-card) 70%
+  );
+  border: 1px solid var(--player-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 0 20px -8px var(--player-color);
+}
+
+.medalDisc::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 40%;
+  height: 30%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.12) 0%, transparent 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.medalIcon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Texto (frente) ──────────────────────────── */
+
+.medalName {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 0.3rem;
+}
+
+.medalDesc {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--text-sec);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.value {
+  font-family: var(--display);
+  font-size: 1.8rem;
+  color: var(--player-color);
+  letter-spacing: 0.02em;
+  text-align: center;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 0.875rem;
+}
+
+/* ── Ganador ─────────────────────────────────── */
+
+.winnerRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+}
+
+.winnerDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--player-color);
+  flex-shrink: 0;
+  box-shadow: 0 0 6px var(--player-color);
+}
+
+.winnerName {
+  font-family: var(--body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--player-color);
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+/* ── Empate ───────────────────────────────────── */
+
+.tiedRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.tiedName {
+  font-family: var(--body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.tiedSep {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+}
+
+.tiedLabel {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  background: var(--bg);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  margin-left: 0.15rem;
+}
+
+/* ── Animaciones ─────────────────────────────── */
+
+@keyframes cardEntrance {
+  from { opacity: 0; transform: translateY(24px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Responsive ──────────────────────────────── */
+
+@media (max-width: 1280px) {
+  .grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+}
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .medalCircle, .backMedalCircle { width: 90px; height: 90px; }
+  .card, .cardInner { min-height: 290px; }
+}
+
+@media (max-width: 480px) {
+  .medals { padding: 4rem 0; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; padding: 0 1rem; }
+  .header { padding: 0 1rem; }
+  .card, .cardInner { min-height: 270px; }
+  .cardFront { padding: 1.5rem 1rem 1.25rem; }
+  .medalCircle, .backMedalCircle { width: 80px; height: 80px; }
+}

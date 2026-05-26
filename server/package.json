@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "save-data": "node -e \"const fs=require('fs');const a=require('axios');a.get('http://localhost:3001/api/stats/').then(r=>fs.writeFileSync('./data/players.json',JSON.stringify(r.data,null,2))).then(()=>console.log('Datos guardados en data/players.json')).catch(e=>console.error(e))\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.16.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}

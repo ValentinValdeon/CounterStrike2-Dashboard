@@ -1,0 +1,47 @@
+.players { padding: 6rem 0; }
+
+.inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.header {
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  letter-spacing: 0.06em;
+  color: var(--text);
+  line-height: 1;
+}
+
+.sub {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+  .players { padding: 4rem 0; }
+}
+
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+}

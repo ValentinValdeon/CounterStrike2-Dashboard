@@ -1,0 +1,60 @@
+[
+  {
+    "steamId": "76561198838345957",
+    "displayName": "Pimpa",
+    "color": "#9A0BB0",
+    "avatar": "https://avatars.steamstatic.com/5fd5dae7ffd83fdc7e809c6d664a7ca1f9ec3072_full.jpg",
+    "online": true,
+    "profilePrivate": true,
+    "stats": null
+  },
+  {
+    "steamId": "76561199010430670",
+    "displayName": "Oseki",
+    "color": "#47B00B",
+    "avatar": "https://avatars.steamstatic.com/e8f91a5249422009c93d45f3cd4abb346448afbc_full.jpg",
+    "online": true,
+    "profilePrivate": true,
+    "stats": null
+  },
+  {
+    "steamId": "76561199037938777",
+    "displayName": "Beiras",
+    "color": "#275EF5",
+    "avatar": "https://avatars.steamstatic.com/65c21b93a0b54749820390f2ee32a3b7ad77da89_full.jpg",
+    "online": false,
+    "profilePrivate": true,
+    "stats": null
+  },
+  {
+    "steamId": "76561199220855486",
+    "displayName": "Nachito",
+    "color": "#F5DD27",
+    "avatar": "https://avatars.steamstatic.com/fb02df5c6a5fbde8f1f00188b622e809f770cd7a_full.jpg",
+    "online": true,
+    "profilePrivate": true,
+    "stats": null
+  },
+  {
+    "steamId": "76561199029536832",
+    "displayName": "Jorginho",
+    "color": "#F59C27",
+    "avatar": "https://avatars.steamstatic.com/383598c68df2795c0d7b0073c3cf4fc93672d957_full.jpg",
+    "online": false,
+    "profilePrivate": false,
+    "stats": {
+      "kills": 20717,
+      "deaths": 25695,
+      "kd": 0.81,
+      "wins": 10019,
+      "winrate": 0,
+      "headshots": 8972,
+      "hsPercent": 7.9,
+      "shotsFired": 473284,
+      "shotsHit": 37599,
+      "accuracy": 7.9,
+      "mvps": 1287,
+      "timePLayed": 26642
+    }
+  }
+]

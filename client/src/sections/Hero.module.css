@@ -1,0 +1,347 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* ─── Fondo ─── */
+
+.glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 55%, rgba(167,139,250,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 30% at 50% 40%, rgba(255,255,255,0.025) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 70%, rgba(0,220,255,0.03) 0%, transparent 70%);
+  pointer-events: none;
+  animation: glowPulse 6s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
+}
+
+/* Scanlines sutiles */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.04) 3px,
+    rgba(0,0,0,0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Partículas ─── */
+
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  width: 1.5px;
+  height: 1.5px;
+  border-radius: 50%;
+  background: rgba(167,139,250,0.45);
+  /* Distribuye las 18 partículas de forma pseudo-aleatoria con calc+var */
+  left:  calc(5% + (var(--i) * 5.4%));
+  top:   calc(10% + (var(--i) * 4.7%));
+  animation: particleDrift
+    calc(7s + var(--i) * 0.8s)
+    calc(var(--i) * -0.9s)
+    ease-in-out infinite alternate;
+  opacity: 0;
+}
+
+/* Varía color en algunas partículas */
+.particle:nth-child(3n)   { background: rgba(0,220,255,0.35); width: 1px; height: 1px; }
+.particle:nth-child(5n)   { background: rgba(255,255,255,0.2); width: 2px; height: 2px; }
+.particle:nth-child(7n)   { background: rgba(255,30,80,0.3);  width: 1px; height: 1px; }
+
+@keyframes particleDrift {
+  0%   { transform: translateY(0)   translateX(0);   opacity: 0; }
+  20%  { opacity: 0.8; }
+  80%  { opacity: 0.5; }
+  100% { transform: translateY(-28px) translateX(10px); opacity: 0; }
+}
+
+/* ─── Inner ─── */
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--text-sec);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeIn 0.5s ease 0.1s both;
+}
+
+/* ─── Título ─── */
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  line-height: 0.9;
+}
+
+.glitchWrapper {
+  position: relative;
+  display: block;
+  opacity: 0;
+  animation: titleReveal 0.7s cubic-bezier(0.16,1,0.3,1) 0.3s both;
+}
+
+/* "TEAM" entra justo después */
+.titleLineOutline {
+  font-family: var(--display);
+  font-size: clamp(5rem, 14vw, 11rem);
+  letter-spacing: 0.04em;
+  -webkit-text-stroke: 1px rgba(242,240,235,0.25);
+  color: transparent;
+  display: block;
+  opacity: 0;
+  animation:
+    titleReveal  0.6s cubic-bezier(0.16,1,0.3,1) 0.55s both,
+    teamGlitch   4s 1.5s infinite;
+}
+
+/* Capa base blanca */
+.titleLine {
+  font-family: var(--display);
+  font-size: clamp(5rem, 14vw, 11rem);
+  letter-spacing: 0.04em;
+  color: var(--text);
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+/* Canal R */
+.titleGlitchR {
+  font-family: var(--display);
+  font-size: clamp(5rem, 14vw, 11rem);
+  letter-spacing: 0.04em;
+  color: rgba(255, 30, 80, 0.75);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: glitchR 3.5s 1.5s infinite;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Canal B */
+.titleGlitchB {
+  font-family: var(--display);
+  font-size: clamp(5rem, 14vw, 11rem);
+  letter-spacing: 0.04em;
+  color: rgba(0, 220, 255, 0.75);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: glitchB 3.5s 1.5s infinite;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ─── Keyframes título ─── */
+
+@keyframes titleReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-18px) skewY(-1deg);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes glitchR {
+  0%, 48%, 100% { transform: none; clip-path: none; opacity: 0; }
+  50%  { transform: translate(-4px, 0); clip-path: inset(10% 0 70% 0); opacity: 1; }
+  55%  { transform: translate(3px, -1px); clip-path: inset(60% 0 15% 0); opacity: 1; }
+  57%  { transform: translate(-2px, 0); clip-path: inset(30% 0 50% 0); opacity: 1; }
+  59%  { opacity: 0; clip-path: none; }
+  69%, 71% { transform: translate(-6px, 0); clip-path: inset(40% 0 35% 0); opacity: 1; }
+  72%  { opacity: 0; }
+}
+
+@keyframes glitchB {
+  0%, 48%, 100% { transform: none; clip-path: none; opacity: 0; }
+  50%  { transform: translate(4px, 0); clip-path: inset(30% 0 50% 0); opacity: 1; }
+  52%  { transform: translate(-3px, 1px); clip-path: inset(75% 0 5% 0); opacity: 1; }
+  54%  { transform: translate(2px, 0); clip-path: inset(10% 0 70% 0); opacity: 1; }
+  56%  { opacity: 0; clip-path: none; }
+  69%, 71% { transform: translate(6px, 0); clip-path: inset(40% 0 35% 0); opacity: 1; }
+  72%  { opacity: 0; }
+}
+
+@keyframes teamGlitch {
+  0%, 60%, 100% { transform: none; -webkit-text-stroke-color: rgba(242,240,235,0.25); }
+  62% { transform: translateX(3px) skewX(-2deg); -webkit-text-stroke-color: rgba(255,30,80,0.45); }
+  63% { transform: translateX(-2px); -webkit-text-stroke-color: rgba(0,220,255,0.45); }
+  64% { transform: none; -webkit-text-stroke-color: rgba(242,240,235,0.25); }
+}
+
+/* ─── Avatares ─── */
+
+.avatars {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.avatarItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  /* El delay base es 900ms (después del título) + escalonado por jugador vía inline style */
+  animation: avatarReveal 0.55s cubic-bezier(0.34,1.56,0.64,1) both;
+  cursor: default;
+}
+
+.avatarRing {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--color), transparent 60%);
+  transition: transform var(--t-slow);
+}
+
+.avatarItem:hover .avatarRing {
+  transform: translateY(-4px);
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--bg);
+}
+
+.onlineDot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 11px;
+  height: 11px;
+  background: var(--green);
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+}
+
+.avatarName {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+
+@keyframes avatarReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.88);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+/* ─── Meta ─── */
+
+.meta {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-sec);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeIn 0.5s ease 1.4s both;
+}
+
+/* ─── Scroll arrow ─── */
+
+.scrollArrow {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text-dim);
+  transition: color var(--t), transform var(--t);
+  animation: bounceY 2s 2s ease-in-out infinite;
+  opacity: 0;
+  /* Aparece al final de todo */
+  animation: scrollFadeIn 0.4s ease 1.8s both, bounceY 2s 2.2s ease-in-out infinite;
+  cursor: pointer;
+}
+.scrollArrow:hover { color: var(--text); transform: translateX(-50%) translateY(4px); }
+
+@keyframes scrollFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Utilidades ─── */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes bounceY {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 600px) {
+  .avatars { gap: 1.25rem; }
+  .avatarRing { width: 54px; height: 54px; }
+  .avatarName { font-size: 0.85rem; }
+}

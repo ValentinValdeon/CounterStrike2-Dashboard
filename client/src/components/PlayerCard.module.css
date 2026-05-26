@@ -1,0 +1,422 @@
+/* ═══════════════════════════════════════
+   PLAYERCARD — Cyberpunk rectangular
+   ═══════════════════════════════════════ */
+
+/* ── Glitch keyframes ── */
+@keyframes glitchR {
+  0%   { clip-path: inset(40% 0 50% 0); transform: translate(-3px, 0); opacity: 0.6; }
+  20%  { clip-path: inset(10% 0 75% 0); transform: translate(3px, 0); }
+  40%  { clip-path: inset(65% 0 10% 0); transform: translate(-2px, 1px); }
+  60%  { clip-path: inset(30% 0 55% 0); transform: translate(2px, -1px); }
+  80%  { clip-path: inset(80% 0 5%  0); transform: translate(-3px, 0); }
+  100% { clip-path: inset(40% 0 50% 0); transform: translate(0, 0); opacity: 0; }
+}
+
+@keyframes glitchB {
+  0%   { clip-path: inset(55% 0 30% 0); transform: translate(4px, 0); opacity: 0.5; }
+  25%  { clip-path: inset(20% 0 60% 0); transform: translate(-4px, 0); }
+  50%  { clip-path: inset(70% 0 15% 0); transform: translate(3px, -1px); }
+  75%  { clip-path: inset(5%  0 80% 0); transform: translate(-3px, 1px); }
+  100% { clip-path: inset(55% 0 30% 0); transform: translate(0, 0); opacity: 0; }
+}
+
+@keyframes scanMove {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+@keyframes cornerPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* ── Card base ── */
+.card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-mid);
+  border-radius: 0;                        /* rectangular — sin radius */
+  padding: 0;
+  overflow: hidden;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+  cursor: default;
+
+  /* clip-path para cortar esquinas simétricamente */
+  clip-path: polygon(
+    0 8px, 8px 0,
+    calc(100% - 8px) 0, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 8px) 100%,
+    8px 100%, 0 calc(100% - 8px)
+  );
+}
+
+.card:hover {
+  border-color: var(--c);
+  box-shadow:
+    0 0 0 1px var(--c),
+    0 0 20px -4px color-mix(in srgb, var(--c) 40%, transparent),
+    inset 0 0 30px -10px color-mix(in srgb, var(--c) 8%, transparent);
+}
+
+/* ── Línea superior de color del jugador ── */
+.topBar {
+  height: 2px;
+  background: var(--c);
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Scanlines ── */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.card:hover .scanlines { opacity: 1; }
+
+/* ── Glitch layers ── */
+.glitchR,
+.glitchB {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+}
+
+/* Capa roja */
+.glitchR {
+  background: inherit;
+  mix-blend-mode: screen;
+  filter: drop-shadow(2px 0 0 rgba(255, 40, 80, 0.7));
+}
+
+/* Capa azul */
+.glitchB {
+  background: inherit;
+  mix-blend-mode: screen;
+  filter: drop-shadow(-2px 0 0 rgba(0, 200, 255, 0.7));
+}
+
+.card:hover .glitchR {
+  animation: glitchR 0.4s steps(1) both;
+}
+.card:hover .glitchB {
+  animation: glitchB 0.4s steps(1) 0.05s both;
+}
+
+/* ── Esquinas decorativas ── */
+.corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--c);
+  border-style: solid;
+  z-index: 4;
+  opacity: 0.7;
+  transition: opacity 200ms ease;
+}
+.card:hover .corner { opacity: 1; animation: cornerPulse 1s ease infinite; }
+
+.cornerTL { top: -1px;  left: -1px;  border-width: 2px 0 0 2px; }
+.cornerTR { top: -1px;  right: -1px; border-width: 2px 2px 0 0; }
+.cornerBL { bottom: -1px; left: -1px;  border-width: 0 0 2px 2px; }
+.cornerBR { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+/* ── Padding interior ── */
+.header,
+.kdSection,
+.statsGrid,
+.wl,
+.private {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.5rem 1.5rem 1.1rem;
+}
+
+.avatarWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 0;                        /* rectangular */
+  object-fit: cover;
+  clip-path: polygon(0 4px,4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);
+  filter: grayscale(20%);
+  transition: filter 200ms ease;
+}
+.card:hover .avatar { filter: grayscale(0%); }
+
+.dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--bg-card);
+}
+.dotOn  { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.dotOff { background: var(--border-mid); }
+
+.nameBlock { flex: 1; min-width: 0; }
+
+.nameRow { display: flex; align-items: baseline; gap: 0.5rem; }
+
+.name {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 150ms ease;
+}
+.card:hover .name { color: var(--c); }
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.statusPill {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  padding: 0.1rem 0;
+}
+.pillOn  { color: var(--green); }
+.pillOff { color: var(--text-dim); }
+
+.hours {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--c);
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.4rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+}
+
+.totalHours {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--text-sec);
+  letter-spacing: 0.05em;
+  padding-left: 0.4rem;
+  border-left: 1px solid var(--border);
+  margin-left: 0.25rem;
+}
+
+/* ── Privado ── */
+.private {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 1.25rem;
+  color: var(--text-dim);
+}
+.privateTitle {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--text-sec);
+}
+.privateSub {
+  font-family: var(--mono);
+  font-size: 0.57rem;
+  letter-spacing: 0.07em;
+  text-align: center;
+  color: var(--text-dim);
+}
+
+/* ── K/D hero ── */
+.kdSection {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.5rem 1.5rem 0.75rem;
+}
+
+.kdNum {
+  font-family: var(--display);
+  font-size: 3.8rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  position: relative;
+}
+
+/* Glitch del número K/D en hover */
+.card:hover .kdNum::before,
+.card:hover .kdNum::after {
+  content: attr(data-kd);
+  position: absolute;
+  top: 0; left: 0;
+  font-family: var(--display);
+  font-size: 3.8rem;
+  line-height: 1;
+}
+.card:hover .kdNum::before {
+  color: rgba(255,40,80,0.6);
+  animation: glitchR 0.4s steps(1) both;
+}
+.card:hover .kdNum::after {
+  color: rgba(0,200,255,0.6);
+  animation: glitchB 0.4s steps(1) 0.05s both;
+}
+
+.kdMeta { display: flex; flex-direction: column; gap: 0.15rem; }
+
+.kdLabel {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--text-sec);
+  letter-spacing: 0.18em;
+}
+
+.kdBreak {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  display: flex;
+  gap: 0.15rem;
+  align-items: center;
+}
+.kdK   { color: var(--green); }
+.kdSep { color: var(--text-dim); }
+.kdD   { color: var(--red); }
+
+/* ── Divider ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 1.5rem;
+  margin: 0.6rem 0;
+}
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.dividerDot {
+  width: 4px;
+  height: 4px;
+  background: var(--c);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+/* ── Stats grid ── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  padding: 0 1.5rem 0.75rem;
+}
+
+.statBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0.25rem;
+  border-left: 1px solid var(--border);
+  transition: background 150ms ease;
+}
+.statBox:nth-child(1),
+.statBox:nth-child(4),
+.statBox:nth-child(7) {
+  border-left: none;
+}
+.statBox:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.statVal {
+  font-family: var(--mono);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+.statLab {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--text-sec);
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+/* ── W/L bar ── */
+.wl {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1.5rem 1.5rem;
+}
+
+.wlItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  flex-shrink: 0;
+}
+
+.wlNum {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1;
+}
+
+.wlLab {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  color: var(--text-sec);
+  letter-spacing: 0.1em;
+}
+
+.wlBar {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--text-sec);
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.wlFill {
+  height: 100%;
+  background: var(--c);
+  transition: width 1s cubic-bezier(0.4,0,0.2,1);
+}
