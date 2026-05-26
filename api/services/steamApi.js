@@ -5,13 +5,17 @@ const CS2_APP_ID = 730
 
 async function getPlayerSummary(steamId) {
     const url = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/`
-    const res = await axios.get(url, {
-        params: {
-            key: API_KEY,
-            steamids: steamId
-        }
-    })
-    return res.data.response.players[0]
+    try {
+        const res = await axios.get(url, {
+            params: {
+                key: API_KEY,
+                steamids: steamId
+            }
+        })
+        return res.data?.response?.players?.[0] || null
+    } catch (error) {
+        return null
+    }
 }
 
 async function getOwnedGameHours(steamId) {
